@@ -117,6 +117,12 @@ DAILY_AGG = DATA_DIR / "diario.csv"
 OVERRIDES_JSON = DATA_DIR / "overrides.json"
 
 
+USERS = {
+    "beatriz.salustino": "9fX0t|?2{wE@",
+    "rodrigo.gomes": "9fX0t|?2{wE@",
+}
+
+
 @st.cache_data(show_spinner=False)
 def load_all() -> EnvData:
     return prepare_base(str(PROD_CSV), str(STG_CSV))
@@ -175,6 +181,52 @@ def st_rerun_compat():
             st.experimental_rerun()
     except Exception:
         pass
+
+
+def ensure_authenticated() -> bool:
+    """Simple username/password gate for the dashboard."""
+    if st.session_state.get("authenticated"):
+        with st.sidebar:
+            st.markdown(f"Usuário autenticado: **{st.session_state['username']}**")
+            if st.button("Sair"):
+                st.session_state.pop("authenticated", None)
+                st.session_state.pop("username", None)
+                st_rerun_compat()
+        return True
+
+    st.markdown(
+        """
+        <style>
+        .login-box {
+            max-width: 320px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: transparent;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    cols = st.columns([1, 1, 1])
+    with cols[1]:
+        st.markdown('<div class="login-box">', unsafe_allow_html=True)
+        with st.form("login_form"):
+            username = st.text_input("Usuário")
+            password = st.text_input("Senha", type="password")
+            submitted = st.form_submit_button("Entrar")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    if submitted:
+        if USERS.get(username) == password:
+            st.session_state["authenticated"] = True
+            st.session_state["username"] = username
+            st.success("Login realizado com sucesso.")
+            st_rerun_compat()
+        else:
+            st.error("Usuário ou senha inválidos.")
+    return False
 
 
 def chart_monthly_trend(env_base: pd.DataFrame):
@@ -392,6 +444,8 @@ def calendar_heatmap(daily_df: pd.DataFrame, title: str):
 
 
 def main():
+    if not ensure_authenticated():
+        return
     st.title("Dashboard AWS – Expermed")
 
     # Sidebar — upload/substituição
