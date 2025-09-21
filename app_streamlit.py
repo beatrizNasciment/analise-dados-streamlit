@@ -718,7 +718,7 @@ def main():
         # ---------------- Calendários ----------------
     with tab_cal:
         st.caption("Passe o mouse para ver Produção, Staging e Total por dia. O Total é a soma automática.")
-        months_opt = st.selectbox("Meses a exibir", options=[1,2,3], index=1)
+        months_opt = st.selectbox("Meses a exibir", options=[1,2], index=1)
         calendar_dual_heatmap(
             df_daily_prod,
             df_daily_stg,
