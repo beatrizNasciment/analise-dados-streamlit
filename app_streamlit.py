@@ -307,7 +307,6 @@ def chart_difference_line(env_base: pd.DataFrame):
 
 
 def chart_top5_var_servicos(prod_df: pd.DataFrame, stg_df: pd.DataFrame):
-    # Usa variação do último mês vs anterior
     from utils_costs import services_top_variation_current_month
 
     prod = services_top_variation_current_month(prod_df)
@@ -320,21 +319,28 @@ def chart_top5_var_servicos(prod_df: pd.DataFrame, stg_df: pd.DataFrame):
         stg[["Serviço", "Δ ($)", "Ambiente"]],
     ], ignore_index=True)
     df.rename(columns={"Δ ($)": "Delta"}, inplace=True)
-    df = df.sort_values("Delta", ascending=False)
-    # Mantém top 5 por ambiente já selecionados; só garantir ordem por |Delta|
-    df["Abs"] = df["Delta"].abs()
+
+    # 🔑 Ordenar pelo valor absoluto (maior impacto primeiro)
+    df["AbsDelta"] = df["Delta"].abs()
+    df = df.sort_values("AbsDelta", ascending=False)
+
     c = (
         alt.Chart(df)
         .mark_bar()
         .encode(
             x=alt.X("Delta:Q", title="Δ ($)"),
-            y=alt.Y("Serviço:N", sort='-x'),
+            y=alt.Y("Serviço:N", sort=df["Serviço"].tolist()),
             color="Ambiente:N",
-            tooltip=["Serviço", "Ambiente", alt.Tooltip("Delta:Q", format=",.2f")],
+            tooltip=[
+                "Serviço",
+                "Ambiente",
+                alt.Tooltip("Delta:Q", format=",.2f"),
+            ],
         )
         .properties(title="Top-5 Variações por Serviço (Δ $)", height=260)
     )
     st_altair(c)
+
 
 
 def calendar_dual_heatmap(df_daily_prod: pd.DataFrame, df_daily_stg: pd.DataFrame, months_to_show: int = 2, title: str = "Calendário", box_height: int = 340, box_width: int = 520):
