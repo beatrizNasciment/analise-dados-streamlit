@@ -6,6 +6,7 @@ import altair as alt
 import inspect
 import pandas as pd
 import streamlit as st
+from datetime import date
 
 import io
 from reportlab.lib.pagesizes import A4
@@ -687,6 +688,40 @@ def main():
         with col4:
             st.subheader("Serviços que mais variaram – Staging")
             st.dataframe(stg_var, width='stretch')
+
+        st.divider()
+        st.subheader("Gastos por Aplicativo (mês corrente)")
+
+        mes_corrente = date.today().strftime("%Y-%m")
+        _key = current_month_key()  # mesmo formato "2025-09"
+
+        _ov = load_overrides(OVERRIDES_JSON)
+        apps_ov = _ov.get("apps", {}).get(_key, {})
+
+        apps = ["experweb", "regulação", "regnova"]
+        df_apps = pd.DataFrame({
+            "Aplicativo": apps,
+            "Produção": [apps_ov.get("producao", {}).get(a, 0.0) for a in apps],
+            "Staging": [apps_ov.get("staging", {}).get(a, 0.0) for a in apps],
+        })
+
+        edit_apps = st.data_editor(
+            df_apps,
+            column_config={
+                "Aplicativo": st.column_config.TextColumn(disabled=True),
+                "Produção": st.column_config.NumberColumn("Produção (R$)", step=0.01),
+                "Staging": st.column_config.NumberColumn("Staging (R$)", step=0.01),
+            },
+            num_rows="fixed",
+            use_container_width=True,
+        )
+
+        if st.button("Salvar gastos por aplicativo"):
+            _ov.setdefault("apps", {}).setdefault(_key, {})
+            _ov["apps"][_key]["producao"] = {r["Aplicativo"]: float(r["Produção"]) for _, r in edit_apps.iterrows()}
+            _ov["apps"][_key]["staging"] = {r["Aplicativo"]: float(r["Staging"]) for _, r in edit_apps.iterrows()}
+            save_overrides(OVERRIDES_JSON, _ov)
+            st.success("Gastos de aplicativos salvos no overrides.json")
 
         st.divider()
         st.subheader("Valores de serviços (somente exibição)")
