@@ -320,6 +320,7 @@ def chart_top5_var_servicos(prod_df: pd.DataFrame, stg_df: pd.DataFrame):
         stg[["Serviço", "Δ ($)", "Ambiente"]],
     ], ignore_index=True)
     df.rename(columns={"Δ ($)": "Delta"}, inplace=True)
+    df = df.sort_values("Delta", ascending=False)
     # Mantém top 5 por ambiente já selecionados; só garantir ordem por |Delta|
     df["Abs"] = df["Delta"].abs()
     c = (
