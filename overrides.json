@@ -1,12 +1,12 @@
 {
   "kpi": {
     "2025-09": {
-      "mtd_producao": 629.1,
-      "mtd_staging": 171.43,
-      "forecast_producao": 1219.1,
-      "forecast_staging": 332.15,
-      "forecast_pct_producao": -6.0,
-      "forecast_pct_staging": -8.0,
+      "mtd_producao": 1219.70,
+      "mtd_staging": 319.03,
+      "forecast_producao": 1306.1,
+      "forecast_staging": 342.45,
+      "forecast_pct_producao": -2.0,
+      "forecast_pct_staging": -5.0,
       "delta_producao": -907.8746083676999,
       "delta_staging": -239.9994480986,
       "delta_pct_producao": 1.2,
@@ -16,14 +16,21 @@
   "apps": {
     "2025-09": {
       "producao": {
-        "experweb": 100.0,
-        "regulação": 200.0,
-        "regnova": 50.0
+        "experweb": 281.33,
+        "regulação": 118.0,
+        "nenhuma tag": 242.74,
+        "ALL": 76.08,
+        "formbuilder": 57.15,
+        "report": 24.99
       },
       "staging": {
-        "experweb": 30.0,
-        "regulação": 80.0,
-        "regnova": 20.0
+        "experweb": 0.72,
+        "regulação": 0.03,
+        "nenhuma tag": 148.75,
+        "all": 132.31,
+        "ALL": 37.18,
+        "report-stg": 0.01,
+        "formbuilder": 0.01
       }
     }
   }
