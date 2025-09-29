@@ -698,7 +698,7 @@ def main():
         _ov = load_overrides(OVERRIDES_JSON)
         apps_ov = _ov.get("apps", {}).get(_key, {})
 
-        apps = ["experweb", "regulação", "regnova"]
+        apps = ["experweb", "regulação", "nenhuma tag", "ALL", "formbuilder", "report-stg", "all"]
         df_apps = pd.DataFrame({
             "Aplicativo": apps,
             "Produção": [apps_ov.get("producao", {}).get(a, 0.0) for a in apps],
