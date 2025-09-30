@@ -490,7 +490,9 @@ def main():
         mtd_stg = mtd_total(df_daily_stg)
         prod_fore, prod_last, prod_delta = forecast_current_month(ENV_PROD, base, df_daily_prod)
         stg_fore, stg_last, stg_delta = forecast_current_month(ENV_STG, base, df_daily_stg)
+
         # Overrides para exibição dos KPIs
+        forecast_prev_prod = forecast_prev_stg = None
         try:
             _ov = load_overrides(OVERRIDES_JSON)
             _key = current_month_key()
@@ -503,10 +505,16 @@ def main():
                 prod_fore = _kpi["forecast_producao"]
             if "forecast_staging" in _kpi:
                 stg_fore = _kpi["forecast_staging"]
+
             forecast_pct_prod = _kpi.get("forecast_pct_producao")
             forecast_pct_stg = _kpi.get("forecast_pct_staging")
+
+            # 👇 novos campos que você adicionou no overrides.json
+            forecast_prev_prod = _kpi.get("forecast-previsao-prod")
+            forecast_prev_stg = _kpi.get("forecast-previsao-stg")
         except Exception:
             pass
+
         with c1:
             kpi_metric("MTD – Produção (mês atual)", 0.0 if mtd_prod is None else mtd_prod)
             st.caption("Total acumulado do mês corrente")
@@ -515,18 +523,20 @@ def main():
             st.caption("Total acumulado do mês corrente")
         with c3:
             delta_kpi_prod = (
-                f"{float(forecast_pct_prod):+.2f}%" if 'forecast_pct_prod' in locals() and forecast_pct_prod is not None
+                f"{float(forecast_pct_prod):+.2f}%" if forecast_pct_prod is not None
                 else (None if prod_delta is None else float(prod_delta))
             )
             kpi_metric("Previsão mês – Produção", float(prod_fore), delta_kpi_prod)
-            st.caption(f"Base mês corrente: R$ {forecast-previsao-stg}")
+            if forecast_prev_prod is not None:
+                st.caption(f"Base mês corrente: R$ {forecast_prev_prod:,.2f}")
         with c4:
             delta_kpi_stg = (
-                f"{float(forecast_pct_stg):+.2f}%" if 'forecast_pct_stg' in locals() and forecast_pct_stg is not None
+                f"{float(forecast_pct_stg):+.2f}%" if forecast_pct_stg is not None
                 else (None if stg_delta is None else float(stg_delta))
             )
             kpi_metric("Previsão mês – Staging", float(stg_fore), delta_kpi_stg)
-            st.caption(f"Base mês corrente: R$ {stg_last:,.2f}")
+            if forecast_prev_stg is not None:
+                st.caption(f"Base mês corrente: R$ {forecast_prev_stg:,.2f}")
 
         # Segunda linha: Variação absoluta e percentual vs mês anterior + dia mais caro
         prod_delta_m, stg_delta_m = variation_vs_prev_month(base)
