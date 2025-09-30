@@ -9,8 +9,11 @@
       "forecast_pct_staging": -5.0,
       "delta_producao": -907.8746083676999,
       "delta_staging": -239.9994480986,
-      "delta_pct_producao": 1.2,
-      "delta_pct_staging": -6.7
+      "delta_pct_producao": -1.2,
+      "delta_pct_staging": -6.7,
+      "forecast-previsao-prod": 0.3,
+      "forecast-previsao-stg": 0.2
+      
     }
   },
   "apps": {
