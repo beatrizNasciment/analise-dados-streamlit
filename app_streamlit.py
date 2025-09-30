@@ -519,7 +519,7 @@ def main():
                 else (None if prod_delta is None else float(prod_delta))
             )
             kpi_metric("Previsão mês – Produção", float(prod_fore), delta_kpi_prod)
-            st.caption(f"Base mês corrente: R$ {prod_last:,.2f}")
+            st.caption(f"Base mês corrente: R$ {forecast-previsao-stg}")
         with c4:
             delta_kpi_stg = (
                 f"{float(forecast_pct_stg):+.2f}%" if 'forecast_pct_stg' in locals() and forecast_pct_stg is not None
