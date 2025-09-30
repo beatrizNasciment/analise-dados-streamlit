@@ -528,7 +528,7 @@ def main():
             )
             kpi_metric("Previsão mês – Produção", float(prod_fore), delta_kpi_prod)
             if forecast_prev_prod is not None:
-                st.caption(f"Base mês corrente: R$ {forecast_prev_prod:,.2f}")
+                st.caption(f"Previsão do mês anterior: R$ {forecast_prev_prod:,.2f}")
         with c4:
             delta_kpi_stg = (
                 f"{float(forecast_pct_stg):+.2f}%" if forecast_pct_stg is not None
@@ -536,7 +536,7 @@ def main():
             )
             kpi_metric("Previsão mês – Staging", float(stg_fore), delta_kpi_stg)
             if forecast_prev_stg is not None:
-                st.caption(f"Base mês corrente: R$ {forecast_prev_stg:,.2f}")
+                st.caption(f"Previsão do mês anterior: R$ {forecast_prev_stg:,.2f}")
 
         # Segunda linha: Variação absoluta e percentual vs mês anterior + dia mais caro
         prod_delta_m, stg_delta_m = variation_vs_prev_month(base)
