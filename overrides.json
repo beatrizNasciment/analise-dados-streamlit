@@ -14,8 +14,7 @@
       "forecast-previsao-prod": 200.0,
       "forecast-previsao-stg": 55.0
     }
-  }
-},
+  },
   "apps": {
     "2025-09": {
       "producao": {
