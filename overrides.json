@@ -1,18 +1,18 @@
 {
   "kpi": {
     "2025-10": {
-      "mtd_producao": 00.00,
-      "mtd_staging": 00.00,
-      "forecast_producao": 00.00,
-      "forecast_staging": 00.00,
+      "mtd_producao": 0,
+      "mtd_staging": 0,
+      "forecast_producao": 0,
+      "forecast_staging": 0,
       "forecast_pct_producao": -0.0,
       "forecast_pct_staging": -0.0,
       "delta_producao": -907.8746083676999,
       "delta_staging": -239.9994480986,
       "delta_pct_producao": 0,
       "delta_pct_staging": 0
-      "forecast-previsao-prod": 00.00,
-      "forecast-previsao-stg": 00.00
+      "forecast-previsao-prod": 0,
+      "forecast-previsao-stg": 0
       
     }
   },
