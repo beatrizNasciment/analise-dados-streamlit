@@ -496,7 +496,8 @@ def main():
         try:
             _ov = load_overrides(OVERRIDES_JSON)
             _key = current_month_key()
-            _kpi = _ov.get("kpi", {}).get(_key, {})
+            _kpi = _ov.get("kpi", {}).get(_key)
+            
             if "mtd_producao" in _kpi:
                 mtd_prod = _kpi["mtd_producao"]
             if "mtd_staging" in _kpi:
