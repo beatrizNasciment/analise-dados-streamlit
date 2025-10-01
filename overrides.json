@@ -3,8 +3,8 @@
     "2025-10": {
       "mtd_producao": 11.5,
       "mtd_staging": 5.7,
-      "forecast_producao": 10.0,
-      "forecast_staging": 11.3,
+      "forecast_producao": 33.0,
+      "forecast_staging": 13.3,
       "forecast_pct_producao": -1.5,
       "forecast_pct_staging": -2.3,
       "delta_producao": -80.4,
