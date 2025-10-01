@@ -486,18 +486,34 @@ def main():
     with tab_dash:
         # Primeira linha: Totais MTD e Previsões
         c1, c2, c3, c4 = st.columns(4)
-        mtd_prod = mtd_total(df_daily_prod)
-        mtd_stg = mtd_total(df_daily_stg)
-        prod_fore, prod_last, prod_delta = forecast_current_month(ENV_PROD, base, df_daily_prod)
-        stg_fore, stg_last, stg_delta = forecast_current_month(ENV_STG, base, df_daily_stg)
 
-        # Overrides para exibição dos KPIs
+        # 🔑 sempre força pegar do overrides.json
+        mtd_prod = mtd_stg = prod_fore = stg_fore = None
+        forecast_pct_prod = forecast_pct_stg = None
         forecast_prev_prod = forecast_prev_stg = None
+        prod_delta = stg_delta = None
+
         try:
             _ov = load_overrides(OVERRIDES_JSON)
             _key = current_month_key()
-            _kpi = _ov.get("kpi", {}).get(_key, {})    
-            
+            _kpi = _ov.get("kpi", {}).get(_key, {})
+        
+            # pega sempre do overrides.json
+            mtd_prod = _kpi.get("mtd_producao")
+            mtd_stg = _kpi.get("mtd_staging")
+            prod_fore = _kpi.get("forecast_producao")
+            stg_fore = _kpi.get("forecast_staging")
+            forecast_pct_prod = _kpi.get("forecast_pct_producao")
+            forecast_pct_stg = _kpi.get("forecast_pct_staging")
+            forecast_prev_prod = _kpi.get("forecast-previsao-prod")
+            forecast_prev_stg = _kpi.get("forecast-previsao-stg")
+            prod_delta = _kpi.get("delta_producao")
+            stg_delta = _kpi.get("delta_staging")
+        
+        except Exception as e:
+            st.warning(f"Erro ao carregar overrides.json: {e}")
+        
+                    
             if "mtd_producao" in _kpi:
                 mtd_prod = _kpi["mtd_producao"]
             if "mtd_staging" in _kpi:
