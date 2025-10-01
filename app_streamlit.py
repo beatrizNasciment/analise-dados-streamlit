@@ -553,7 +553,7 @@ def main():
             )
             kpi_metric("Valor do mês anterior – Staging", float(stg_fore), delta_kpi_stg)
             if forecast_prev_stg is not None:
-                st.caption(f"Previsão do mês anterior: R$ {forecast_prev_stg:,.2f}")
+                st.caption(f"Valor do mês anterior: R$ {forecast_prev_stg:,.2f}")
 
         # Segunda linha: Variação absoluta e percentual vs mês anterior + dia mais caro
         prod_delta_m, stg_delta_m = variation_vs_prev_month(base)
