@@ -1,8 +1,8 @@
 {
   "kpi": {
     "2025-10": {
-      "mtd_producao": 0,
-      "mtd_staging": 0,
+      "mtd_producao": 0.10,
+      "mtd_staging": 0.15,
       "forecast_producao": 0,
       "forecast_staging": 0,
       "forecast_pct_producao": -0.0,
