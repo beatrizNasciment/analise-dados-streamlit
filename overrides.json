@@ -1,11 +1,11 @@
 {
   "kpi": {
     "2025-10": {
-      "mtd_producao": 90.03,
+      "mtd_producao": 221.43,
       "mtd_staging": 26.80,
-      "forecast_producao": 1326.10,
+      "forecast_producao": 1389.16,
       "forecast_staging": 387.90,
-      "forecast_pct_producao": 0,
+      "forecast_pct_producao": 5,
       "forecast_pct_staging": 12,
       "delta_producao": -80.4,
       "delta_staging": -15.9,
